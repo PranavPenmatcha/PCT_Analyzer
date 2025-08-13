@@ -49,10 +49,16 @@ if not exist "node_modules" (
 REM Install Python dependencies
 echo [4/5] Installing Python dependencies...
 echo Installing Python packages...
-pip install pandas openpyxl numpy scipy matplotlib xlsxwriter >nul 2>&1
+pip install pandas openpyxl numpy scipy matplotlib xlsxwriter
 if %errorlevel% neq 0 (
     echo WARNING: Some Python packages may have failed to install
-    echo The application may still work with existing packages
+    echo Trying with python -m pip...
+    python -m pip install pandas openpyxl numpy scipy matplotlib xlsxwriter
+    if %errorlevel% neq 0 (
+        echo ERROR: Failed to install Python packages!
+        echo Please install manually: pip install pandas openpyxl numpy scipy matplotlib xlsxwriter
+        pause
+    )
 )
 echo ✓ Python dependencies installed
 
@@ -85,4 +91,12 @@ echo To stop the server, close this window or press Ctrl+C
 echo.
 
 REM Keep the window open to show server logs
+echo Press Ctrl+C to stop the server
+echo.
 npm start
+if %errorlevel% neq 0 (
+    echo.
+    echo ERROR: Server failed to start!
+    echo Check the error messages above
+    pause
+)

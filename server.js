@@ -184,7 +184,17 @@ function runPythonScript(scriptName, args = [], workingDir = __dirname, targetFi
             pythonArgs = [tempScriptPath];
         }
         
-        const python = spawn('python3', pythonArgs, {
+        // Try different Python commands based on platform
+        let pythonCmd;
+        if (process.platform === 'win32') {
+            // On Windows, try python, py, then python3
+            pythonCmd = 'python';
+        } else {
+            // On Unix-like systems, prefer python3
+            pythonCmd = 'python3';
+        }
+
+        const python = spawn(pythonCmd, pythonArgs, {
             cwd: workingDir,
             stdio: ['pipe', 'pipe', 'pipe']
         });
@@ -201,6 +211,42 @@ function runPythonScript(scriptName, args = [], workingDir = __dirname, targetFi
         });
         
         python.on('close', (code) => {
+            if (code !== 0) {
+                console.error(`Python script ${scriptName} failed with code ${code}`);
+                console.error(`Python command used: ${pythonCmd}`);
+                console.error(`Error output: ${error}`);
+                console.error(`Standard output: ${output}`);
+
+                // On Windows, try alternative Python commands
+                if (process.platform === 'win32' && pythonCmd === 'python') {
+                    console.log('Trying alternative Python command: py');
+                    const pythonAlt = spawn('py', pythonArgs, {
+                        cwd: workingDir,
+                        stdio: ['pipe', 'pipe', 'pipe']
+                    });
+
+                    let altOutput = '';
+                    let altError = '';
+
+                    pythonAlt.stdout.on('data', (data) => {
+                        altOutput += data.toString();
+                    });
+
+                    pythonAlt.stderr.on('data', (data) => {
+                        altError += data.toString();
+                    });
+
+                    pythonAlt.on('close', (altCode) => {
+                        resolve({
+                            success: altCode === 0,
+                            output: altCode === 0 ? altOutput : output,
+                            error: altCode === 0 ? altError : error,
+                            code: altCode === 0 ? altCode : code
+                        });
+                    });
+                    return;
+                }
+            }
             resolve({
                 success: code === 0,
                 output: output,
