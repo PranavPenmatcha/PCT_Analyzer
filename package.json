@@ -1,0 +1,24 @@
+{
+  "name": "windaq-analyzer",
+  "version": "1.0.0",
+  "description": "Web application for analyzing WinDaq files and detecting current pulses",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["windaq", "current", "pulse", "analysis", "battery", "testing"],
+  "author": "WinDaq Analyzer",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7",
+    "fs-extra": "^11.1.1",
+    "uuid": "^9.0.0",
+    "child_process": "^1.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
