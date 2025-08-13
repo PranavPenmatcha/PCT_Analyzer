@@ -18,7 +18,7 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-echo ✓ Node.js is installed
+echo [OK] Node.js is installed
 
 REM Check if Python is installed
 echo [2/5] Checking Python installation...
@@ -30,7 +30,7 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-echo ✓ Python is installed
+echo [OK] Python is installed
 
 REM Install Node.js dependencies
 echo [3/5] Installing Node.js dependencies...
@@ -43,7 +43,7 @@ if not exist "node_modules" (
         exit /b 1
     )
 ) else (
-    echo ✓ Node.js dependencies already installed
+    echo [OK] Node.js dependencies already installed
 )
 
 REM Install Python dependencies
@@ -60,7 +60,7 @@ if %errorlevel% neq 0 (
         pause
     )
 )
-echo ✓ Python dependencies installed
+echo [OK] Python dependencies installed
 
 REM Start the application
 echo [5/5] Starting WinDaq Analyzer...
@@ -79,8 +79,8 @@ REM Open browser
 start http://localhost:3000
 
 echo.
-echo ✓ WinDaq Analyzer is now running!
-echo ✓ Browser should open automatically
+echo [OK] WinDaq Analyzer is now running!
+echo [OK] Browser should open automatically
 echo.
 echo Instructions:
 echo - Upload your WinDaq files (.wdq, .wdh, .wdc)

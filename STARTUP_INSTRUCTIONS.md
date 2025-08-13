@@ -5,10 +5,10 @@
 **Double-click:** `start_windaq_analyzer.bat`
 
 This will:
-- ✅ Check if Node.js and Python are installed
-- ✅ Install all required dependencies automatically
-- ✅ Start the WinDaq Analyzer server
-- ✅ Open your browser to http://localhost:3000
+- Check if Node.js and Python are installed
+- Install all required dependencies automatically
+- Start the WinDaq Analyzer server
+- Open your browser to http://localhost:3000
 
 ## Mac Users
 
@@ -20,10 +20,10 @@ Or run in Terminal:
 ```
 
 This will:
-- ✅ Check if Node.js and Python are installed
-- ✅ Install all required dependencies automatically
-- ✅ Start the WinDaq Analyzer server
-- ✅ Open your browser to http://localhost:3000
+- Check if Node.js and Python are installed
+- Install all required dependencies automatically
+- Start the WinDaq Analyzer server
+- Open your browser to http://localhost:3000
 
 ## Requirements
 

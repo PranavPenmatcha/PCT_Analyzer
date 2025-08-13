@@ -165,6 +165,22 @@ app.get('/download/:sessionId/*', (req, res) => {
     }
 });
 
+// Helper function to detect Python command
+function detectPythonCommand() {
+    const { execSync } = require('child_process');
+    const commands = process.platform === 'win32' ? ['python', 'py', 'python3'] : ['python3', 'python'];
+
+    for (const cmd of commands) {
+        try {
+            execSync(`${cmd} --version`, { stdio: 'ignore' });
+            return cmd;
+        } catch (error) {
+            // Command not found, try next
+        }
+    }
+    return null;
+}
+
 // Helper function to run Python scripts
 function runPythonScript(scriptName, args = [], workingDir = __dirname, targetFile = null) {
     return new Promise((resolve) => {
@@ -184,14 +200,17 @@ function runPythonScript(scriptName, args = [], workingDir = __dirname, targetFi
             pythonArgs = [tempScriptPath];
         }
         
-        // Try different Python commands based on platform
-        let pythonCmd;
-        if (process.platform === 'win32') {
-            // On Windows, try python, py, then python3
-            pythonCmd = 'python';
-        } else {
-            // On Unix-like systems, prefer python3
-            pythonCmd = 'python3';
+        // Detect the correct Python command
+        const pythonCmd = detectPythonCommand();
+
+        if (!pythonCmd) {
+            resolve({
+                success: false,
+                output: '',
+                error: 'Python not found. Please install Python and ensure it is in your PATH.',
+                code: -1
+            });
+            return;
         }
 
         const python = spawn(pythonCmd, pythonArgs, {
@@ -216,36 +235,6 @@ function runPythonScript(scriptName, args = [], workingDir = __dirname, targetFi
                 console.error(`Python command used: ${pythonCmd}`);
                 console.error(`Error output: ${error}`);
                 console.error(`Standard output: ${output}`);
-
-                // On Windows, try alternative Python commands
-                if (process.platform === 'win32' && pythonCmd === 'python') {
-                    console.log('Trying alternative Python command: py');
-                    const pythonAlt = spawn('py', pythonArgs, {
-                        cwd: workingDir,
-                        stdio: ['pipe', 'pipe', 'pipe']
-                    });
-
-                    let altOutput = '';
-                    let altError = '';
-
-                    pythonAlt.stdout.on('data', (data) => {
-                        altOutput += data.toString();
-                    });
-
-                    pythonAlt.stderr.on('data', (data) => {
-                        altError += data.toString();
-                    });
-
-                    pythonAlt.on('close', (altCode) => {
-                        resolve({
-                            success: altCode === 0,
-                            output: altCode === 0 ? altOutput : output,
-                            error: altCode === 0 ? altError : error,
-                            code: altCode === 0 ? altCode : code
-                        });
-                    });
-                    return;
-                }
             }
             resolve({
                 success: code === 0,

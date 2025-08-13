@@ -62,10 +62,10 @@ Click "Download Excel" to get your analyzed data with:
 
 ## Features
 
-✅ **Automatic pulse detection**  
-✅ **Peak current analysis**  
-✅ **Interactive charts**  
-✅ **Excel export with charts**  
-✅ **Professional formatting**  
-✅ **Drag & drop upload**  
-✅ **Real-time progress tracking**
+- **Automatic pulse detection**
+- **Peak current analysis**
+- **Interactive charts**
+- **Excel export with charts**
+- **Professional formatting**
+- **Drag & drop upload**
+- **Real-time progress tracking**
