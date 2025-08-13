@@ -37,6 +37,7 @@ echo [OK] Python is installed
 
 REM Install Node.js dependencies
 echo [3/5] Installing Node.js dependencies...
+cd app
 if not exist "node_modules" (
     echo Installing npm packages...
     call npm install
@@ -52,11 +53,11 @@ if not exist "node_modules" (
 REM Install Python dependencies
 echo [4/5] Installing Python dependencies...
 echo Installing Python packages...
-pip install pandas openpyxl numpy scipy matplotlib xlsxwriter
+pip install pandas openpyxl numpy scipy matplotlib xlsxwriter >nul 2>&1
 if %errorlevel% neq 0 (
     echo WARNING: Some Python packages may have failed to install
     echo Trying with python -m pip...
-    python -m pip install pandas openpyxl numpy scipy matplotlib xlsxwriter
+    python -m pip install pandas openpyxl numpy scipy matplotlib xlsxwriter >nul 2>&1
     if %errorlevel% neq 0 (
         echo ERROR: Failed to install Python packages!
         echo Please install manually: pip install pandas openpyxl numpy scipy matplotlib xlsxwriter

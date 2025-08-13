@@ -72,7 +72,7 @@ app.post('/upload', upload.single('wdqFile'), async (req, res) => {
         console.log(`Processing file: ${uploadedFile.originalname}`);
         
         // Step 1: Convert WinDaq to Excel
-        const convertResult = await runPythonScript('windaq_to_excel_converter.py', [sessionFilePath], sessionDir);
+        const convertResult = await runPythonScript('src/windaq_to_excel_converter.py', [sessionFilePath], sessionDir);
         
         if (!convertResult.success) {
             throw new Error(`Conversion failed: ${convertResult.error}`);
@@ -89,14 +89,14 @@ app.post('/upload', upload.single('wdqFile'), async (req, res) => {
         const excelPath = path.join(sessionDir, excelFile);
         
         // Step 2: Analyze pulses
-        const analyzeResult = await runPythonScript('pulse_analyzer.py', [], sessionDir, excelPath);
+        const analyzeResult = await runPythonScript('src/pulse_analyzer.py', [], sessionDir, excelPath);
 
         if (!analyzeResult.success) {
             throw new Error(`Pulse analysis failed: ${analyzeResult.error}`);
         }
 
         // Step 3: Create chart
-        const chartResult = await runPythonScript('add_chart_to_excel.py', [], sessionDir);
+        const chartResult = await runPythonScript('src/add_chart_to_excel.py', [], sessionDir);
 
         if (!chartResult.success) {
             throw new Error(`Chart creation failed: ${chartResult.error}`);
@@ -188,7 +188,7 @@ function runPythonScript(scriptName, args = [], workingDir = __dirname, targetFi
         let pythonArgs = [scriptPath, ...args];
         
         // For pulse_analyzer.py, we need to target the specific Excel file
-        if (scriptName === 'pulse_analyzer.py' && targetFile) {
+        if (scriptName === 'src/pulse_analyzer.py' && targetFile) {
             // Copy the script to working directory and modify it to target specific file
             const tempScriptPath = path.join(workingDir, 'temp_pulse_analyzer.py');
             const originalScript = fs.readFileSync(scriptPath, 'utf8');
