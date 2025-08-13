@@ -215,7 +215,12 @@ function runPythonScript(scriptName, args = [], workingDir = __dirname, targetFi
 
         const python = spawn(pythonCmd, pythonArgs, {
             cwd: workingDir,
-            stdio: ['pipe', 'pipe', 'pipe']
+            stdio: ['pipe', 'pipe', 'pipe'],
+            env: {
+                ...process.env,
+                PYTHONIOENCODING: 'utf-8',
+                PYTHONLEGACYWINDOWSSTDIO: '1'
+            }
         });
         
         let output = '';

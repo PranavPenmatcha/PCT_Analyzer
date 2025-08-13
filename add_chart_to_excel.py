@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Add Current vs Time Chart to Excel File
 
@@ -124,14 +125,14 @@ def main():
         # Create Excel file with chart
         output_file = create_excel_with_chart(str(excel_file))
         
-        print(f"\n🎉 Chart Creation Complete!")
-        print(f"📊 Added Current vs Time chart to Excel file")
-        print(f"📋 Output file: {output_file}")
-        print(f"📑 The file now contains:")
-        print(f"   • Raw_Data sheet: Original data with pulse summary")
-        print(f"   • Current_vs_Time_Chart: Dedicated chart sheet (entire tab is the chart)")
-        print(f"📈 Chart shows all 5000 data points with clear pulse visualization")
-        print(f"🎯 The chart tab fills the entire screen for maximum visibility")
+        print(f"\nChart Creation Complete!")
+        print(f"Added Current vs Time chart to Excel file")
+        print(f"Output file: {output_file}")
+        print(f"The file now contains:")
+        print(f"   - Raw_Data sheet: Original data with pulse summary")
+        print(f"   - Current_vs_Time_Chart: Dedicated chart sheet (entire tab is the chart)")
+        print(f"Chart shows all data points with clear pulse visualization")
+        print(f"The chart tab fills the entire screen for maximum visibility")
         
     except Exception as e:
         logger.error(f"Error creating chart: {str(e)}")

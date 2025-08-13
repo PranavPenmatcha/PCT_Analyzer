@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Pulse Analysis Tool for WinDaq Current Data
 
@@ -295,26 +296,26 @@ def main():
             # Save results
             output_file = analyzer.save_analysis_to_excel()
             
-            print(f"\n🎉 Pulse Analysis Complete!")
-            print(f"📊 Found {len(pulses)} current pulses")
-            print(f"📈 Peak current range: {stats['peak_current_min']:.2f} - {stats['peak_current_max']:.2f} A")
-            print(f"⚡ Highest peak: {stats['peak_current_max']:.2f} A")
-            print(f"📋 Results saved to: {output_file}")
-            print(f"📑 Pulse summary table added to the right of the raw data")
+            print(f"\nPulse Analysis Complete!")
+            print(f"Found {len(pulses)} current pulses")
+            print(f"Peak current range: {stats['peak_current_min']:.2f} - {stats['peak_current_max']:.2f} A")
+            print(f"Highest peak: {stats['peak_current_max']:.2f} A")
+            print(f"Results saved to: {output_file}")
+            print(f"Pulse summary table added to the right of the raw data")
 
             # Show the pulse summary
-            print(f"\n🔋 Pulse Summary:")
+            print(f"\nPulse Summary:")
             print(f"              Peak Current")
             for pulse in pulses:
                 print(f"Pulse {pulse['pulse_number']}      {pulse['peak_current']:.0f}")
 
             # Show detailed pulse information for web parsing
-            print(f"\n🔋 Individual Pulse Details:")
+            print(f"\nIndividual Pulse Details:")
             for pulse in pulses:
                 print(f"Pulse {pulse['pulse_number']}: {pulse['peak_current']:.2f} A at {pulse['peak_time']:.3f}s")
             
         else:
-            print("❌ No pulses detected. Try adjusting the threshold parameters.")
+            print("No pulses detected. Try adjusting the threshold parameters.")
             
     except Exception as e:
         logger.error(f"Error during analysis: {str(e)}")
